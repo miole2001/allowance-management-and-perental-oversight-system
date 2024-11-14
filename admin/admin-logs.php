@@ -1,4 +1,29 @@
-<?php include("../components/admin-header.php"); ?>
+<?php 
+    include("../components/admin-header.php"); 
+
+    // HANDLE DELETE REQUEST
+    if (isset($_POST['delete_logs'])) {
+        $delete_id = $_POST['delete_id'];
+        
+        $verify_delete = $connForLogs->prepare("SELECT * FROM `admin_logs` WHERE id = ?");
+        $verify_delete->execute([$delete_id]);
+        
+        if ($verify_delete->rowCount() > 0) {
+            $delete_logs = $connForLogs->prepare("DELETE FROM `admin_logs` WHERE id = ?");
+            if ($delete_logs->execute([$delete_id])) {
+                $success_msg[] = 'Log deleted!';
+            } else {
+                $error_msg[] = 'Error deleting log.';
+            }
+        } else {
+            $warning_msg[] = 'Log already deleted!';
+        }
+    }
+        
+    // FETCH ALL DATA OF ADMIN LOGS
+    $admin_logs = $connForLogs->query("SELECT * FROM `admin_logs`")->fetchAll(PDO::FETCH_ASSOC);
+
+?>
 
 
 <!-- Main Content -->
@@ -18,8 +43,8 @@
 
 
 
-                <!-- DataTable -->
-                <div class="card shadow mb-4">
+        <!-- DataTable -->
+        <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
             </div>
@@ -28,65 +53,41 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>#</th>
+                                <th>Email</th>
+                                <th>Activity</th>
+                                <th>Timestamp</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>#</th>
+                                <th>Email</th>
+                                <th>Activity</th>
+                                <th>Timestamp</th>
+                                <th>Action</th>
                             </tr>
                         </tfoot>
                         <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
-                            </tr>
-                            <tr>
-                                <td>Garrett Winters</td>
-                                <td>Accountant</td>
-                                <td>Tokyo</td>
-                                <td>63</td>
-                                <td>2011/07/25</td>
-                                <td>$170,750</td>
-                            </tr>
-                            <tr>
-                                <td>Shad Decker</td>
-                                <td>Regional Director</td>
-                                <td>Edinburgh</td>
-                                <td>51</td>
-                                <td>2008/11/13</td>
-                                <td>$183,000</td>
-                            </tr>
-                            <tr>
-                                <td>Michael Bruce</td>
-                                <td>Javascript Developer</td>
-                                <td>Singapore</td>
-                                <td>29</td>
-                                <td>2011/06/27</td>
-                                <td>$183,000</td>
-                            </tr>
-                            <tr>
-                                <td>Donna Snider</td>
-                                <td>Customer Support</td>
-                                <td>New York</td>
-                                <td>27</td>
-                                <td>2011/01/25</td>
-                                <td>$112,000</td>
-                            </tr>
+                            <?php
+                                $count = 1;
+                                foreach ($admin_logs as $logs):
+                                ?>
+                                <tr>
+                                    <td><?php echo $count++; ?></td>
+                                    <td><?php echo ($logs['email']); ?></td>
+                                    <td><?php echo ($logs['activity_type']); ?></td>
+                                    <td><?php echo ($logs['timestamp']); ?></td>
+                                    <td>
+                                        <form method="POST" action="" class="delete-form">
+                                            <input type="hidden" name="delete_id" value="<?php echo ($logs['id']); ?>">
+                                            <input type="hidden" name="delete_logs" value="1">
+                                            <button type="button" class="btn btn-danger btn-sm delete-btn">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -111,6 +112,29 @@
 <!-- End of Page Wrapper -->
 
 <?php include("../components/scripts.php"); ?>
+
+<script>
+    // Delete confirmation
+    $('.delete-btn').on('click', function() {
+        const form = $(this).closest('.delete-form');
+        const reviewId = form.find('input[name="delete_id"]').val();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This action cannot be undone!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log("Deleting log ID: " + reviewId); // Debug log
+                form.submit(); // Submit the form if confirmed
+            }
+        });
+    });
+</script>
 
 </body>
 

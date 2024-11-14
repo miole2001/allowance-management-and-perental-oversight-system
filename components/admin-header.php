@@ -5,6 +5,9 @@ ini_set('display_errors', 1);
 
 //database connection
 include("../connection.php");
+
+include ('../components/alerts.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
