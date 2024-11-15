@@ -96,7 +96,7 @@ include ('../components/alerts.php');
 
             <!-- logout -->
             <li class="nav-item">
-                <a class="nav-link" href="../logout.php">
+                <a class="nav-link" href="#" id="logout">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Logout</span></a>
             </li>
