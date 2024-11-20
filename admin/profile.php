@@ -1,9 +1,39 @@
-<?php 
+<?php
+    ob_start(); 
     include("../components/admin-header.php"); 
-    
-    $select_user = $connForAccounts->prepare("SELECT * FROM `user_accounts` WHERE id = ? LIMIT 1");
+
+    // Fetch user details
+    $select_user = $connForAccounts->prepare("SELECT * FROM `admin_account` WHERE id = ? LIMIT 1");
     $select_user->execute([$user_id]);
     $user = $select_user->fetch(PDO::FETCH_ASSOC);
+
+    // Handle the update profile form submission
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Get updated values from form
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        if (!empty($password)) {
+
+            // If the user provided a new password, hash it
+            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+        } else {
+
+            // If the password field is empty, keep the existing password
+            $hashed_password = $user['password'];
+        }
+
+        // Prepare the update SQL query
+        $update_sql = "UPDATE `admin_account` SET `name` = ?, `email` = ?, `password` = ? WHERE `id` = ?";
+        $stmt_update = $connForAccounts->prepare($update_sql);
+        
+        $stmt_update->execute([$name, $email, $hashed_password, $user_id]);
+
+        // Redirect to profile page after update
+        header('Location: profile.php');
+        exit;
+    }
 ?>
 
 
@@ -42,8 +72,8 @@
                             <h4><?php echo ($user['name']); ?></h4>
                             <p class="text-secondary mb-1"><?php echo ($user['email']); ?></p>
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-                                Launch demo modal
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#profileModal">
+                                Edit Profile
                             </button>
                         </div>
                     </div>
@@ -93,11 +123,11 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
     <div class="modal-dialog d-flex align-items-center" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="profileModalLabel">Edit Profile</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -105,41 +135,29 @@
 
             <div class="modal-body">
                 <form action="" method="post">
-                    <!-- Text Input 1 -->
+                    <!-- Name Input -->
                     <div class="form-group">
-                        <label for="inputSample">Sample Input</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputSample" placeholder="Sample Input">
-                        </div>
+                        <label for="name">Full Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="<?php echo ($user['name']); ?>">
                     </div>
 
-                    <!-- Text Input 2 (Readonly) -->
+                    <!-- Email Input -->
                     <div class="form-group">
-                        <label for="inputReadonly">Sample Input (Readonly)</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputReadonly" placeholder="Sample Input readonly" readonly>
-                        </div>
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email" name="email" value="<?php echo ($user['email']); ?>">
                     </div>
 
-                    <!-- Dropdown Menu -->
+                    <!-- Password Input -->
                     <div class="form-group">
-                        <label for="inputSelect">Select Option</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" id="inputSelect">
-                                <option value="">Choose an option</option>
-                                <option value="option1">Option 1</option>
-                                <option value="option2">Option 2</option>
-                                <option value="option3">Option 3</option>
-                            </select>
-                        </div>
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Leave empty to keep current password">
                     </div>
-                </form>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

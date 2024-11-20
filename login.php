@@ -1,54 +1,76 @@
 <?php
-// to display errors
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+    // Display errors for debugging
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
 
-// database connection
-include 'connection.php';
+    // Database connection
+    include 'connection.php';
+    include './components/alerts.php';
 
-include ('./components/alerts.php');
+    $warning_msg = []; // Initialize the warning message array
 
+    if (isset($_POST['submit'])) {
+        $email = trim($_POST['email']);
+        $pass = trim($_POST['password']);
 
-$warning_msg = []; // Initialize the warning message array
+        if (!empty($email) && !empty($pass)) {
+            // Check if the user is an admin
+            $verify_admin = $connForAccounts->prepare("SELECT * FROM `admin_account` WHERE email = ? LIMIT 1");
+            $verify_admin->execute([$email]);
 
-if (isset($_POST['submit'])) {
-    $email = $_POST['email'];
-    $pass = $_POST['password'];
+            if ($verify_admin->rowCount() > 0) {
+                // Admin found
+                $fetch = $verify_admin->fetch(PDO::FETCH_ASSOC);
+                
+                // Verify admin password
+                if (password_verify($pass, $fetch['password'])) {
+                    $action_type = 'Login';
 
-    // Prepare SQL statement to fetch user by email
-    $verify_user = $connForAccounts->prepare("SELECT * FROM `user_accounts` WHERE email = ? LIMIT 1");
-    $verify_user->execute([$email]);
+                    // Log admin login activity
+                    $log_stmt = $connForLogs->prepare("INSERT INTO admin_logs (email, activity_type, user_type) VALUES (?, ?, 'admin')");
+                    $log_stmt->execute([$email, $action_type]);
 
-    if ($verify_user->rowCount() > 0) {
-        $fetch = $verify_user->fetch(PDO::FETCH_ASSOC);
-        $user_type = $fetch['user_type'];
-        $action_type = 'Login';
+                    // Set cookie and redirect to admin dashboard
+                    setcookie('user_id', $fetch['id'], time() + 60 * 60 * 24 * 30, '/');
+                    header('Location: admin/admin.php');
+                    exit();
+                } else {
+                    $warning_msg[] = 'Incorrect admin password!';
+                }
+            } else {
+                // Check if the user is a client (in the client table)
+                $verify_client = $connForAccounts->prepare("SELECT * FROM `user_accounts` WHERE email = ? LIMIT 1");
+                $verify_client->execute([$email]);
 
-        // Log the attempt
-        if ($user_type === 'admin') {
-            $log_stmt = $connForLogs->prepare("INSERT INTO admin_logs (email, activity_type, user_type) VALUES (?, ?, ?)");
-            $log_stmt->execute([$email, $action_type, $user_type]);
-            setcookie('user_id', $fetch['id'], time() + 60 * 60 * 24 * 30, '/');
-            if ($verify_user) {
-                header('Location: admin/admin.php');
-                exit();
-            }
-        } else if ($user_type === 'user'){
-            $log_stmt = $connForLogs->prepare("INSERT INTO user_logs (email, activity_type, user_type) VALUES (?, ?, ?)");
-            $log_stmt->execute([$email, $action_type, $user_type]);
-            if ($verify_user) {
-                setcookie('user_id', $fetch['id'], time() + 60 * 60 * 24 * 30, '/');
-                header('Location: user/user.php');
-                exit();
+                if ($verify_client->rowCount() > 0) {
+                    // Client found
+                    $fetch = $verify_client->fetch(PDO::FETCH_ASSOC);
+                    
+                    // Verify client password
+                    if (password_verify($pass, $fetch['password'])) {
+                        $action_type = 'Login';
+
+                        // Log client login activity
+                        $log_stmt = $connForLogs->prepare("INSERT INTO user_logs (email, activity_type, user_type) VALUES (?, ?, 'user')");
+                        $log_stmt->execute([$email, $action_type]);
+
+                        // Set cookie and redirect to client dashboard
+                        setcookie('user_id', $fetch['id'], time() + 60 * 60 * 24 * 30, '/');
+                        header('Location: user/user.php');
+                        exit();
+                    } else {
+                        $warning_msg[] = 'Incorrect user password!';
+                    }
+                } else {
+                    $warning_msg[] = 'No account found with this email!';
+                }
             }
         } else {
-
+            $warning_msg[] = 'Please fill in all fields!';
         }
-            } else {
-        $warning_msg[] = 'Incorrect email!';
     }
-}
 ?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>

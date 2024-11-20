@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 14, 2024 at 09:28 AM
+-- Generation Time: Nov 20, 2024 at 04:37 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `amapos_accounts`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_account`
+--
+
+CREATE TABLE `admin_account` (
+  `id` int(11) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `name` varchar(80) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `date_registered` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin_account`
+--
+
+INSERT INTO `admin_account` (`id`, `image`, `name`, `email`, `password`, `date_registered`) VALUES
+(1, 'profile1.png', 'admin', 'admin@gmail.com', '$2y$10$ExL/HP1r3YQGw91dGKF7POnFOILQWTktWMFyjS17F4jgDAlN2yOLa', '2024-11-18 02:22:09');
 
 -- --------------------------------------------------------
 
@@ -50,6 +72,12 @@ INSERT INTO `user_accounts` (`id`, `image`, `name`, `email`, `password`, `user_t
 --
 
 --
+-- Indexes for table `admin_account`
+--
+ALTER TABLE `admin_account`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user_accounts`
 --
 ALTER TABLE `user_accounts`
@@ -60,10 +88,16 @@ ALTER TABLE `user_accounts`
 --
 
 --
+-- AUTO_INCREMENT for table `admin_account`
+--
+ALTER TABLE `admin_account`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `user_accounts`
 --
 ALTER TABLE `user_accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
