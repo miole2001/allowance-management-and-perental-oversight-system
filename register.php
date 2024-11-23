@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
         $warning_msg[] = 'Email already taken!';
     } else {
         if ($c_pass == 1) {
-            $insert_user = $connForAccounts->prepare("INSERT INTO `user_accounts`(image, name, email, password, user_type) VALUES(?,?,?,?,'user')");
+            $insert_user = $connForAccounts->prepare("INSERT INTO `user_accounts`(image, name, email, password, user_type) VALUES(?,?,?,?, 'parent')");
             $insert_user->execute([$image, $name, $email, $pass]);
             $success_msg[] = 'Registered successfully!';
             // Redirect after the alert is shown

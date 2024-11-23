@@ -20,7 +20,7 @@ include ('../components/alerts.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>USER DASHBOARD | AM&POS</title>
+    <title>STUDENT DASHBOARD | AM&POS</title>
 
     <!-- FONTAWESOME CSS-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -58,9 +58,17 @@ include ('../components/alerts.php');
 
             <!-- analytics page -->
             <li class="nav-item active">
-                <a class="nav-link" href="user.php">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>dashboard</span></a>
+                <a class="nav-link" href="allowance-lists.php">
+                    <i class="fas fa-fw fa-fw fa-wallet"></i>
+                    <span>Allowance Board</span></a>
+            </li>
+
+            <!-- my Oversight Rules page -->
+            <li class="nav-item">
+                <a class="nav-link" href="oversight-rules.php">
+                    <i class="fas fa-fw fa-gavel"></i>
+                    <span>Oversight Rules</span>
+                </a>
             </li>
 
             <!-- Divider -->
@@ -74,7 +82,7 @@ include ('../components/alerts.php');
             <!-- my profile page -->
             <li class="nav-item">
                 <a class="nav-link" href="profile.php">
-                    <i class="fas fa-fw fa-user"></i>
+                    <i class="fas fa-fw fa-id-card"></i>
                     <span>My Profile</span>
                 </a>
             </li>
@@ -90,14 +98,14 @@ include ('../components/alerts.php');
             <!-- logs page -->
             <li class="nav-item">
                 <a class="nav-link" href="my-logs.php">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-fw fa-clipboard-list"></i>
                     <span>Logs</span></a>
             </li>
 
             <!-- logout -->
             <li class="nav-item">
                 <a class="nav-link" href="#" id="logout">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-sign-out-alt"></i>
                     <span>Logout</span></a>
             </li>
 

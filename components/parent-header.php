@@ -20,7 +20,7 @@ include ('../components/alerts.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ADMIN DASHBOARD | AM&POS</title>
+    <title>PARENT DASHBOARD | AM&POS</title>
 
     <!-- FONTAWESOME CSS-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -48,7 +48,7 @@ include ('../components/alerts.php');
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-coins"></i>
+                    <i class="fas fa-laugh-wink"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">AM&POS</div>
             </a>
@@ -58,9 +58,9 @@ include ('../components/alerts.php');
 
             <!-- analytics page -->
             <li class="nav-item active">
-                <a class="nav-link" href="admin.php">
-                    <i class="fas fa-house-user"></i>
-                    <span>Dashboard</span></a>
+                <a class="nav-link" href="parent.php">
+                    <i class="fas fa-fw fa-fw fa-wallet"></i>
+                    <span>Allowance</span></a>
             </li>
 
             <!-- Divider -->
@@ -71,22 +71,6 @@ include ('../components/alerts.php');
                 Interface
             </div>
 
-            <!-- my Oversight Rules page -->
-            <li class="nav-item">
-                <a class="nav-link" href="oversight-rules.php">
-                    <i class="fas fa-fw fa-gavel"></i>
-                    <span>Oversight Rules</span>
-                </a>
-            </li>
-
-            <!-- my allowance page -->
-            <li class="nav-item">
-                <a class="nav-link" href="allowance.php">
-                    <i class="fas fa-fw fa-wallet"></i>
-                    <span>Allowance List</span>
-                </a>
-            </li>
-
             <!-- my profile page -->
             <li class="nav-item">
                 <a class="nav-link" href="profile.php">
@@ -95,19 +79,11 @@ include ('../components/alerts.php');
                 </a>
             </li>
 
-            <!-- parent account page -->
+            <!-- oversight rule page -->
             <li class="nav-item">
-                <a class="nav-link" href="parent-accounts.php">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Parent Accounts</span>
-                </a>
-            </li>
-
-            <!-- student account page -->
-            <li class="nav-item">
-                <a class="nav-link" href="student-accounts.php">
-                    <i class="fas fa-fw fa-graduation-cap"></i>
-                    <span>Student Accounts</span>
+                <a class="nav-link" href="oversight-rules.php">
+                    <i class="fas fa-fw fa-gavel"></i>
+                    <span>Oversight Rule</span>
                 </a>
             </li>
 
@@ -119,26 +95,11 @@ include ('../components/alerts.php');
                 Logs
             </div>
 
-
-            <!-- admin logs page -->
+            <!-- logs page -->
             <li class="nav-item">
-                <a class="nav-link" href="admin-logs.php">
-                    <i class="fas fa-file-alt"></i>
-                    <span>My Logs</span></a>
-            </li>
-
-            <!-- parent logs page -->
-            <li class="nav-item">
-                <a class="nav-link" href="parent-logs.php">
+                <a class="nav-link" href="my-logs.php">
                     <i class="fas fa-fw fa-clipboard-list"></i>
-                    <span>Parent Logs</span></a>
-            </li>
-
-            <!-- student logs page -->
-            <li class="nav-item">
-                <a class="nav-link" href="student-logs.php">
-                    <i class="fas fa-fw fa-clipboard-list"></i>
-                    <span>Student Logs</span></a>
+                    <span>Logs</span></a>
             </li>
 
             <!-- logout -->
@@ -147,7 +108,7 @@ include ('../components/alerts.php');
                     <i class="fas fa-fw fa-sign-out-alt"></i>
                     <span>Logout</span></a>
             </li>
-            
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

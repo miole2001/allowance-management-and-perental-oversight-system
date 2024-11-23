@@ -22,7 +22,7 @@
     }
     
     // FETCH ALL DATA OF ADMIN LOGS
-    $user_logs = $connForLogs->query("SELECT * FROM `user_logs`")->fetchAll(PDO::FETCH_ASSOC);
+    $parent_logs = $connForLogs->query("SELECT * FROM `user_logs` WHERE user_type = 'parent'")->fetchAll(PDO::FETCH_ASSOC);
     
 
 ?>
@@ -74,7 +74,7 @@
                         <tbody>
                             <?php
                                 $count = 1;
-                                foreach ($user_logs as $logs):
+                                foreach ($parent_logs as $logs):
                                 ?>
                                 <tr>
                                     <td><?php echo $count++; ?></td>

@@ -20,7 +20,7 @@
         }
     }
 
-    $user_accounts = $connForAccounts->query("SELECT * FROM `user_accounts` WHERE user_type = 'user'")->fetchAll(PDO::FETCH_ASSOC);
+    $user_accounts = $connForAccounts->query("SELECT * FROM `user_accounts` WHERE user_type = 'parent'")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 

@@ -1,9 +1,7 @@
 <?php 
-    include("../components/user-header.php"); 
-
-    // FETCH ALL DATA OF ADMIN LOGS
-    $user_logs = $connForLogs->query("SELECT * FROM `user_logs`")->fetchAll(PDO::FETCH_ASSOC);
-
+    include("../components/student-header.php"); 
+    
+    $oversight_rules = $connForAllowance->query("SELECT * FROM `oversight_rules`")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 
@@ -27,7 +25,7 @@
                 <!-- DataTable -->
                 <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Search Your Name to see your oversight rule(s)</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -35,29 +33,41 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Email</th>
-                                <th>Activity</th>
-                                <th>Timestamp</th>
+                                <th>Parent</th>
+                                <th>Student</th>
+                                <th>Rules</th>
+                                <th>Spending Limit</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Date Created</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>#</th>
-                                <th>Email</th>
-                                <th>Activity</th>
-                                <th>Timestamp</th>
+                                <th>Parent</th>
+                                <th>Student</th>
+                                <th>Rules</th>
+                                <th>Spending Limit</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Date Created</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             <?php
                                 $count = 1;
-                                foreach ($user_logs as $logs):
+                                foreach ($oversight_rules as $rules):
                                 ?>
                                 <tr>
                                     <td><?php echo $count++; ?></td>
-                                    <td><?php echo ($logs['email']); ?></td>
-                                    <td><?php echo ($logs['activity_type']); ?></td>
-                                    <td><?php echo ($logs['timestamp']); ?></td>
+                                    <td><?php echo ($rules['parent_name']); ?></td>
+                                    <td><?php echo ($rules['student_name']); ?></td>
+                                    <td><?php echo ($rules['rule']); ?></td>
+                                    <td><?php echo ($rules['spending_limit']); ?></td>
+                                    <td><?php echo ($rules['description']); ?></td>
+                                    <td><?php echo ($rules['status']); ?></td>
+                                    <td><?php echo ($rules['created_at']); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

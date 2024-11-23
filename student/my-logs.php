@@ -1,4 +1,9 @@
-<?php include("../components/user-header.php"); ?>
+<?php 
+    include("../components/student-header.php"); 
+
+    $user_logs = $connForLogs->query("SELECT * FROM `user_logs` WHERE user_type = 'student'")->fetchAll(PDO::FETCH_ASSOC);
+
+?>
 
 
 <!-- Main Content -->
@@ -28,33 +33,32 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>#</th>
+                                <th>Email</th>
+                                <th>Activity</th>
+                                <th>Timestamp</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>#</th>
+                                <th>Email</th>
+                                <th>Activity</th>
+                                <th>Timestamp</th>
                             </tr>
                         </tfoot>
                         <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
-                            </tr>
+                            <?php
+                                $count = 1;
+                                foreach ($user_logs as $logs):
+                                ?>
+                                <tr>
+                                    <td><?php echo $count++; ?></td>
+                                    <td><?php echo ($logs['email']); ?></td>
+                                    <td><?php echo ($logs['activity_type']); ?></td>
+                                    <td><?php echo ($logs['timestamp']); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>

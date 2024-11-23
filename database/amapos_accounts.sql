@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 20, 2024 at 04:37 AM
+-- Generation Time: Nov 23, 2024 at 01:41 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -46,6 +46,31 @@ INSERT INTO `admin_account` (`id`, `image`, `name`, `email`, `password`, `date_r
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `student_accounts`
+--
+
+CREATE TABLE `student_accounts` (
+  `id` int(11) NOT NULL,
+  `image` varchar(200) NOT NULL,
+  `student_id` varchar(40) NOT NULL,
+  `name` varchar(80) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `user_type` varchar(20) NOT NULL,
+  `date_registered` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student_accounts`
+--
+
+INSERT INTO `student_accounts` (`id`, `image`, `student_id`, `name`, `email`, `password`, `user_type`, `date_registered`) VALUES
+(1, 'profile1.png', '24-20001', 'student', 'student@gmail.com', '$2y$10$ExL/HP1r3YQGw91dGKF7POnFOILQWTktWMFyjS17F4jgDAlN2yOLa', 'student', '2024-11-23 05:45:17'),
+(2, 'profile2.png', '20-20002', 'John Doe', 'johnDoe@gmail.com', '$2y$10$ExL/HP1r3YQGw91dGKF7POnFOILQWTktWMFyjS17F4jgDAlN2yOLa', 'student', '2024-11-23 06:41:59');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user_accounts`
 --
 
@@ -64,8 +89,7 @@ CREATE TABLE `user_accounts` (
 --
 
 INSERT INTO `user_accounts` (`id`, `image`, `name`, `email`, `password`, `user_type`, `date_registered`) VALUES
-(1, 'profile1.png', 'user', 'user@gmail.com', '$2y$10$ExL/HP1r3YQGw91dGKF7POnFOILQWTktWMFyjS17F4jgDAlN2yOLa', 'user', '2024-11-13 14:11:57'),
-(2, 'profile1.png', 'admin', 'admin@gmail.com', '$2y$10$ExL/HP1r3YQGw91dGKF7POnFOILQWTktWMFyjS17F4jgDAlN2yOLa', 'admin', '2024-11-13 14:11:57');
+(1, 'profile1.png', 'parent', 'parent@gmail.com', '$2y$10$ExL/HP1r3YQGw91dGKF7POnFOILQWTktWMFyjS17F4jgDAlN2yOLa', 'parent', '2024-11-13 14:11:57');
 
 --
 -- Indexes for dumped tables
@@ -75,6 +99,12 @@ INSERT INTO `user_accounts` (`id`, `image`, `name`, `email`, `password`, `user_t
 -- Indexes for table `admin_account`
 --
 ALTER TABLE `admin_account`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `student_accounts`
+--
+ALTER TABLE `student_accounts`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -94,10 +124,16 @@ ALTER TABLE `admin_account`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `student_accounts`
+--
+ALTER TABLE `student_accounts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `user_accounts`
 --
 ALTER TABLE `user_accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

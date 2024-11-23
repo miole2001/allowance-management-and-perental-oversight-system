@@ -1,6 +1,6 @@
 <?php
     ob_start(); 
-    include("../components/user-header.php"); 
+    include("../components/parent-header.php"); 
 
     // Fetch user details
     $select_user = $connForAccounts->prepare("SELECT * FROM `user_accounts` WHERE id = ? LIMIT 1");
